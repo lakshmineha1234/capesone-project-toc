@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+void correctGrammar(char *sentence) {
+    
+    sentence[0] = toupper(sentence[0]);
+
+    
+    int len = strlen(sentence);
+    if (sentence[len - 1] != '.') {
+        
+        strcat(sentence, ".");
+    }
+
+    for (int i = 0; i < len - 1; i++) {
+        if (ispunct(sentence[i]) && sentence[i + 1] != ' ') {
+            
+            memmove(&sentence[i + 2], &sentence[i + 1], strlen(&sentence[i + 1]) + 1);
+            sentence[i + 1] = ' ';
+        }
+    }
+}
+
+int main() {
+    char sentence[1000];
+
+    printf("Enter a sentence: ");
+    fgets(sentence, sizeof(sentence), stdin);
+
+    
+    sentence[strcspn(sentence, "\n")] = 0;
+
+    
+    correctGrammar(sentence);
+
+    
+    printf("Corrected sentence: %s\n", sentence);
+
+    return 0;
+}
